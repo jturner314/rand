@@ -1,4 +1,5 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `rand_distr/src/normal.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>normal.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css"><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script src="../../storage.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="shortcut icon" href="https://www.rust-lang.org/favicon.ico"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../rand_distr/index.html'><div class='logo-container'><img src='https://www.rust-lang.org/logos/rust-logo-128x128-blk.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form js-only"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `rand_distr/src/normal.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>normal.rs - source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../light.css"  id="themeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css" disabled ><link rel="stylesheet" type="text/css" href="../../ayu.css" disabled ><script id="default-settings"></script><script src="../../storage.js"></script><script src="../../crates.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="shortcut icon" href="https://www.rust-lang.org/favicon.ico"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu" role="button">&#9776;</div><a href='../../rand_distr/index.html'><div class='logo-container'><img src='https://www.rust-lang.org/logos/rust-logo-128x128-blk.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!" aria-haspopup="menu"><img src="../../brush.svg" width="18" height="18" alt="Pick another theme!"></button><div id="theme-choices" role="menu"></div></div><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><button type="button" class="help-button">?</button>
+                <a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" height="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
 <span id="2">  2</span>
 <span id="3">  3</span>
 <span id="4">  4</span>
@@ -217,6 +218,145 @@
 <span id="217">217</span>
 <span id="218">218</span>
 <span id="219">219</span>
+<span id="220">220</span>
+<span id="221">221</span>
+<span id="222">222</span>
+<span id="223">223</span>
+<span id="224">224</span>
+<span id="225">225</span>
+<span id="226">226</span>
+<span id="227">227</span>
+<span id="228">228</span>
+<span id="229">229</span>
+<span id="230">230</span>
+<span id="231">231</span>
+<span id="232">232</span>
+<span id="233">233</span>
+<span id="234">234</span>
+<span id="235">235</span>
+<span id="236">236</span>
+<span id="237">237</span>
+<span id="238">238</span>
+<span id="239">239</span>
+<span id="240">240</span>
+<span id="241">241</span>
+<span id="242">242</span>
+<span id="243">243</span>
+<span id="244">244</span>
+<span id="245">245</span>
+<span id="246">246</span>
+<span id="247">247</span>
+<span id="248">248</span>
+<span id="249">249</span>
+<span id="250">250</span>
+<span id="251">251</span>
+<span id="252">252</span>
+<span id="253">253</span>
+<span id="254">254</span>
+<span id="255">255</span>
+<span id="256">256</span>
+<span id="257">257</span>
+<span id="258">258</span>
+<span id="259">259</span>
+<span id="260">260</span>
+<span id="261">261</span>
+<span id="262">262</span>
+<span id="263">263</span>
+<span id="264">264</span>
+<span id="265">265</span>
+<span id="266">266</span>
+<span id="267">267</span>
+<span id="268">268</span>
+<span id="269">269</span>
+<span id="270">270</span>
+<span id="271">271</span>
+<span id="272">272</span>
+<span id="273">273</span>
+<span id="274">274</span>
+<span id="275">275</span>
+<span id="276">276</span>
+<span id="277">277</span>
+<span id="278">278</span>
+<span id="279">279</span>
+<span id="280">280</span>
+<span id="281">281</span>
+<span id="282">282</span>
+<span id="283">283</span>
+<span id="284">284</span>
+<span id="285">285</span>
+<span id="286">286</span>
+<span id="287">287</span>
+<span id="288">288</span>
+<span id="289">289</span>
+<span id="290">290</span>
+<span id="291">291</span>
+<span id="292">292</span>
+<span id="293">293</span>
+<span id="294">294</span>
+<span id="295">295</span>
+<span id="296">296</span>
+<span id="297">297</span>
+<span id="298">298</span>
+<span id="299">299</span>
+<span id="300">300</span>
+<span id="301">301</span>
+<span id="302">302</span>
+<span id="303">303</span>
+<span id="304">304</span>
+<span id="305">305</span>
+<span id="306">306</span>
+<span id="307">307</span>
+<span id="308">308</span>
+<span id="309">309</span>
+<span id="310">310</span>
+<span id="311">311</span>
+<span id="312">312</span>
+<span id="313">313</span>
+<span id="314">314</span>
+<span id="315">315</span>
+<span id="316">316</span>
+<span id="317">317</span>
+<span id="318">318</span>
+<span id="319">319</span>
+<span id="320">320</span>
+<span id="321">321</span>
+<span id="322">322</span>
+<span id="323">323</span>
+<span id="324">324</span>
+<span id="325">325</span>
+<span id="326">326</span>
+<span id="327">327</span>
+<span id="328">328</span>
+<span id="329">329</span>
+<span id="330">330</span>
+<span id="331">331</span>
+<span id="332">332</span>
+<span id="333">333</span>
+<span id="334">334</span>
+<span id="335">335</span>
+<span id="336">336</span>
+<span id="337">337</span>
+<span id="338">338</span>
+<span id="339">339</span>
+<span id="340">340</span>
+<span id="341">341</span>
+<span id="342">342</span>
+<span id="343">343</span>
+<span id="344">344</span>
+<span id="345">345</span>
+<span id="346">346</span>
+<span id="347">347</span>
+<span id="348">348</span>
+<span id="349">349</span>
+<span id="350">350</span>
+<span id="351">351</span>
+<span id="352">352</span>
+<span id="353">353</span>
+<span id="354">354</span>
+<span id="355">355</span>
+<span id="356">356</span>
+<span id="357">357</span>
+<span id="358">358</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="comment">// Copyright 2018 Developers of the Rand project.</span>
 <span class="comment">// Copyright 2013 The Rust Project Developers.</span>
@@ -229,9 +369,11 @@
 
 <span class="doccomment">//! The normal and derived distributions.</span>
 
-<span class="kw">use</span> <span class="ident">rand</span>::<span class="ident">Rng</span>;
+<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">utils</span>::<span class="ident">ziggurat</span>;
+<span class="kw">use</span> <span class="ident">num_traits</span>::<span class="ident">Float</span>;
 <span class="kw">use</span> <span class="kw">crate</span>::{<span class="ident">ziggurat_tables</span>, <span class="ident">Distribution</span>, <span class="ident">Open01</span>};
-<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">utils</span>::{<span class="ident">ziggurat</span>, <span class="ident">Float</span>};
+<span class="kw">use</span> <span class="ident">rand</span>::<span class="ident">Rng</span>;
+<span class="kw">use</span> <span class="ident">core</span>::<span class="ident">fmt</span>;
 
 <span class="doccomment">/// Samples floating-point numbers according to the normal distribution</span>
 <span class="doccomment">/// `N(0, 1)` (a.k.a. a standard normal, or Gaussian). This is equivalent to</span>
@@ -259,7 +401,7 @@
 
 <span class="kw">impl</span> <span class="ident">Distribution</span><span class="op">&lt;</span><span class="ident">f32</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">StandardNormal</span> {
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">fn</span> <span class="ident">sample</span><span class="op">&lt;</span><span class="ident">R</span>: <span class="ident">Rng</span> <span class="op">+</span> <span class="question-mark">?</span><span class="ident">Sized</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">rng</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">R</span>) <span class="op">-&gt;</span> <span class="ident">f32</span> {
+    <span class="kw">fn</span> <span class="ident">sample</span><span class="op">&lt;</span><span class="ident">R</span>: <span class="ident">Rng</span> <span class="op">+</span> <span class="question-mark">?</span><span class="ident">Sized</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">rng</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">R</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">f32</span> {
         <span class="comment">// TODO: use optimal 32-bit implementation</span>
         <span class="kw">let</span> <span class="ident">x</span>: <span class="ident">f64</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">sample</span>(<span class="ident">rng</span>);
         <span class="ident">x</span> <span class="kw">as</span> <span class="ident">f32</span>
@@ -267,13 +409,13 @@
 }
 
 <span class="kw">impl</span> <span class="ident">Distribution</span><span class="op">&lt;</span><span class="ident">f64</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">StandardNormal</span> {
-    <span class="kw">fn</span> <span class="ident">sample</span><span class="op">&lt;</span><span class="ident">R</span>: <span class="ident">Rng</span> <span class="op">+</span> <span class="question-mark">?</span><span class="ident">Sized</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">rng</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">R</span>) <span class="op">-&gt;</span> <span class="ident">f64</span> {
+    <span class="kw">fn</span> <span class="ident">sample</span><span class="op">&lt;</span><span class="ident">R</span>: <span class="ident">Rng</span> <span class="op">+</span> <span class="question-mark">?</span><span class="ident">Sized</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">rng</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">R</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">f64</span> {
         <span class="attribute">#[<span class="ident">inline</span>]</span>
-        <span class="kw">fn</span> <span class="ident">pdf</span>(<span class="ident">x</span>: <span class="ident">f64</span>) <span class="op">-&gt;</span> <span class="ident">f64</span> {
-            (<span class="op">-</span><span class="ident">x</span><span class="kw-2">*</span><span class="ident">x</span><span class="op">/</span><span class="number">2.0</span>).<span class="ident">exp</span>()
+        <span class="kw">fn</span> <span class="ident">pdf</span>(<span class="ident">x</span>: <span class="ident">f64</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">f64</span> {
+            (<span class="op">-</span><span class="ident">x</span> <span class="op">*</span> <span class="ident">x</span> <span class="op">/</span> <span class="number">2.0</span>).<span class="ident">exp</span>()
         }
         <span class="attribute">#[<span class="ident">inline</span>]</span>
-        <span class="kw">fn</span> <span class="ident">zero_case</span><span class="op">&lt;</span><span class="ident">R</span>: <span class="ident">Rng</span> <span class="op">+</span> <span class="question-mark">?</span><span class="ident">Sized</span><span class="op">&gt;</span>(<span class="ident">rng</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">R</span>, <span class="ident">u</span>: <span class="ident">f64</span>) <span class="op">-&gt;</span> <span class="ident">f64</span> {
+        <span class="kw">fn</span> <span class="ident">zero_case</span><span class="op">&lt;</span><span class="ident">R</span>: <span class="ident">Rng</span> <span class="op">+</span> <span class="question-mark">?</span><span class="ident">Sized</span><span class="op">&gt;</span>(<span class="ident">rng</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">R</span>, <span class="ident">u</span>: <span class="ident">f64</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">f64</span> {
             <span class="comment">// compute a random number in the tail by hand</span>
 
             <span class="comment">// strange initial conditions, because the loop is not</span>
@@ -291,13 +433,21 @@
                 <span class="ident">y</span> <span class="op">=</span> <span class="ident">y_</span>.<span class="ident">ln</span>();
             }
 
-            <span class="kw">if</span> <span class="ident">u</span> <span class="op">&lt;</span> <span class="number">0.0</span> { <span class="ident">x</span> <span class="op">-</span> <span class="ident">ziggurat_tables</span>::<span class="ident">ZIG_NORM_R</span> } <span class="kw">else</span> { <span class="ident">ziggurat_tables</span>::<span class="ident">ZIG_NORM_R</span> <span class="op">-</span> <span class="ident">x</span> }
+            <span class="kw">if</span> <span class="ident">u</span> <span class="op">&lt;</span> <span class="number">0.0</span> {
+                <span class="ident">x</span> <span class="op">-</span> <span class="ident">ziggurat_tables</span>::<span class="ident">ZIG_NORM_R</span>
+            } <span class="kw">else</span> {
+                <span class="ident">ziggurat_tables</span>::<span class="ident">ZIG_NORM_R</span> <span class="op">-</span> <span class="ident">x</span>
+            }
         }
 
-        <span class="ident">ziggurat</span>(<span class="ident">rng</span>, <span class="bool-val">true</span>, <span class="comment">// this is symmetric</span>
-                 <span class="kw-2">&amp;</span><span class="ident">ziggurat_tables</span>::<span class="ident">ZIG_NORM_X</span>,
-                 <span class="kw-2">&amp;</span><span class="ident">ziggurat_tables</span>::<span class="ident">ZIG_NORM_F</span>,
-                 <span class="ident">pdf</span>, <span class="ident">zero_case</span>)
+        <span class="ident">ziggurat</span>(
+            <span class="ident">rng</span>,
+            <span class="bool-val">true</span>, <span class="comment">// this is symmetric</span>
+            <span class="kw-2">&amp;</span><span class="ident">ziggurat_tables</span>::<span class="ident">ZIG_NORM_X</span>,
+            <span class="kw-2">&amp;</span><span class="ident">ziggurat_tables</span>::<span class="ident">ZIG_NORM_F</span>,
+            <span class="ident">pdf</span>,
+            <span class="ident">zero_case</span>,
+        )
     }
 }
 
@@ -305,7 +455,7 @@
 <span class="doccomment">///</span>
 <span class="doccomment">/// This uses the ZIGNOR variant of the Ziggurat method, see [`StandardNormal`]</span>
 <span class="doccomment">/// for more details.</span>
-<span class="doccomment">/// </span>
+<span class="doccomment">///</span>
 <span class="doccomment">/// Note that [`StandardNormal`] is an optimised implementation for mean 0, and</span>
 <span class="doccomment">/// standard deviation 1.</span>
 <span class="doccomment">///</span>
@@ -322,41 +472,90 @@
 <span class="doccomment">///</span>
 <span class="doccomment">/// [`StandardNormal`]: crate::StandardNormal</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Normal</span><span class="op">&lt;</span><span class="ident">N</span><span class="op">&gt;</span> {
-    <span class="ident">mean</span>: <span class="ident">N</span>,
-    <span class="ident">std_dev</span>: <span class="ident">N</span>,
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Normal</span><span class="op">&lt;</span><span class="ident">F</span><span class="op">&gt;</span>
+<span class="kw">where</span> <span class="ident">F</span>: <span class="ident">Float</span>, <span class="ident">StandardNormal</span>: <span class="ident">Distribution</span><span class="op">&lt;</span><span class="ident">F</span><span class="op">&gt;</span>
+{
+    <span class="ident">mean</span>: <span class="ident">F</span>,
+    <span class="ident">std_dev</span>: <span class="ident">F</span>,
 }
 
 <span class="doccomment">/// Error type returned from `Normal::new` and `LogNormal::new`.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>)]</span>
 <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Error</span> {
-    <span class="doccomment">/// `std_dev &lt; 0` or `nan`.</span>
-    <span class="ident">StdDevTooSmall</span>,
+    <span class="doccomment">/// The mean value is too small (log-normal samples must be positive)</span>
+    <span class="ident">MeanTooSmall</span>,
+    <span class="doccomment">/// The standard deviation or other dispersion parameter is not finite.</span>
+    <span class="ident">BadVariance</span>,
 }
 
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">N</span>: <span class="ident">Float</span><span class="op">&gt;</span> <span class="ident">Normal</span><span class="op">&lt;</span><span class="ident">N</span><span class="op">&gt;</span>
-<span class="kw">where</span> <span class="ident">StandardNormal</span>: <span class="ident">Distribution</span><span class="op">&lt;</span><span class="ident">N</span><span class="op">&gt;</span>
-{
-    <span class="doccomment">/// Construct a new `Normal` distribution with the given mean and</span>
-    <span class="doccomment">/// standard deviation.</span>
-    <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">mean</span>: <span class="ident">N</span>, <span class="ident">std_dev</span>: <span class="ident">N</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Normal</span><span class="op">&lt;</span><span class="ident">N</span><span class="op">&gt;</span>, <span class="ident">Error</span><span class="op">&gt;</span> {
-        <span class="kw">if</span> <span class="op">!</span>(<span class="ident">std_dev</span> <span class="op">&gt;=</span> <span class="ident">N</span>::<span class="ident">from</span>(<span class="number">0.0</span>)) {
-            <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">Error</span>::<span class="ident">StdDevTooSmall</span>);
-        }
-        <span class="prelude-val">Ok</span>(<span class="ident">Normal</span> {
-            <span class="ident">mean</span>,
-            <span class="ident">std_dev</span>
+<span class="kw">impl</span> <span class="ident">fmt</span>::<span class="ident">Display</span> <span class="kw">for</span> <span class="ident">Error</span> {
+    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt</span>::<span class="ident">Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">fmt</span>::<span class="prelude-ty">Result</span> {
+        <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="kw">match</span> <span class="self">self</span> {
+            <span class="ident">Error</span>::<span class="ident">MeanTooSmall</span> <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot;mean &lt; 0 or NaN in log-normal distribution&quot;</span>,
+            <span class="ident">Error</span>::<span class="ident">BadVariance</span> <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot;variation parameter is non-finite in (log)normal distribution&quot;</span>,
         })
     }
 }
 
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">N</span>: <span class="ident">Float</span><span class="op">&gt;</span> <span class="ident">Distribution</span><span class="op">&lt;</span><span class="ident">N</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">Normal</span><span class="op">&lt;</span><span class="ident">N</span><span class="op">&gt;</span>
-<span class="kw">where</span> <span class="ident">StandardNormal</span>: <span class="ident">Distribution</span><span class="op">&lt;</span><span class="ident">N</span><span class="op">&gt;</span>
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;std&quot;</span>)]</span>
+<span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">doc_cfg</span>, <span class="ident">doc</span>(<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;std&quot;</span>)))]</span>
+<span class="kw">impl</span> <span class="ident">std</span>::<span class="ident">error</span>::<span class="ident">Error</span> <span class="kw">for</span> <span class="ident">Error</span> {}
+
+<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">F</span><span class="op">&gt;</span> <span class="ident">Normal</span><span class="op">&lt;</span><span class="ident">F</span><span class="op">&gt;</span>
+<span class="kw">where</span> <span class="ident">F</span>: <span class="ident">Float</span>, <span class="ident">StandardNormal</span>: <span class="ident">Distribution</span><span class="op">&lt;</span><span class="ident">F</span><span class="op">&gt;</span>
 {
-    <span class="kw">fn</span> <span class="ident">sample</span><span class="op">&lt;</span><span class="ident">R</span>: <span class="ident">Rng</span> <span class="op">+</span> <span class="question-mark">?</span><span class="ident">Sized</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">rng</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">R</span>) <span class="op">-&gt;</span> <span class="ident">N</span> {
-        <span class="kw">let</span> <span class="ident">n</span>: <span class="ident">N</span> <span class="op">=</span> <span class="ident">rng</span>.<span class="ident">sample</span>(<span class="ident">StandardNormal</span>);
-        <span class="self">self</span>.<span class="ident">mean</span> <span class="op">+</span> <span class="self">self</span>.<span class="ident">std_dev</span> <span class="op">*</span> <span class="ident">n</span>
+    <span class="doccomment">/// Construct, from mean and standard deviation</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Parameters:</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// -   mean (`μ`, unrestricted)</span>
+    <span class="doccomment">/// -   standard deviation (`σ`, must be finite)</span>
+    <span class="attribute">#[<span class="ident">inline</span>]</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">mean</span>: <span class="ident">F</span>, <span class="ident">std_dev</span>: <span class="ident">F</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Normal</span><span class="op">&lt;</span><span class="ident">F</span><span class="op">&gt;</span>, <span class="ident">Error</span><span class="op">&gt;</span> {
+        <span class="kw">if</span> <span class="op">!</span><span class="ident">std_dev</span>.<span class="ident">is_finite</span>() {
+            <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">Error</span>::<span class="ident">BadVariance</span>);
+        }
+        <span class="prelude-val">Ok</span>(<span class="ident">Normal</span> { <span class="ident">mean</span>, <span class="ident">std_dev</span> })
+    }
+
+    <span class="doccomment">/// Construct, from mean and coefficient of variation</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Parameters:</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// -   mean (`μ`, unrestricted)</span>
+    <span class="doccomment">/// -   coefficient of variation (`cv = abs(σ / μ)`)</span>
+    <span class="attribute">#[<span class="ident">inline</span>]</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">from_mean_cv</span>(<span class="ident">mean</span>: <span class="ident">F</span>, <span class="ident">cv</span>: <span class="ident">F</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Normal</span><span class="op">&lt;</span><span class="ident">F</span><span class="op">&gt;</span>, <span class="ident">Error</span><span class="op">&gt;</span> {
+        <span class="kw">if</span> <span class="op">!</span><span class="ident">cv</span>.<span class="ident">is_finite</span>() <span class="op">|</span><span class="op">|</span> <span class="ident">cv</span> <span class="op">&lt;</span> <span class="ident">F</span>::<span class="ident">zero</span>() {
+            <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">Error</span>::<span class="ident">BadVariance</span>);
+        }
+        <span class="kw">let</span> <span class="ident">std_dev</span> <span class="op">=</span> <span class="ident">cv</span> <span class="op">*</span> <span class="ident">mean</span>;
+        <span class="prelude-val">Ok</span>(<span class="ident">Normal</span> { <span class="ident">mean</span>, <span class="ident">std_dev</span> })
+    }
+
+    <span class="doccomment">/// Sample from a z-score</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// This may be useful for generating correlated samples `x1` and `x2`</span>
+    <span class="doccomment">/// from two different distributions, as follows.</span>
+    <span class="doccomment">/// ```</span>
+    <span class="doccomment">/// # use rand::prelude::*;</span>
+    <span class="doccomment">/// # use rand_distr::{Normal, StandardNormal};</span>
+    <span class="doccomment">/// let mut rng = thread_rng();</span>
+    <span class="doccomment">/// let z = StandardNormal.sample(&amp;mut rng);</span>
+    <span class="doccomment">/// let x1 = Normal::new(0.0, 1.0).unwrap().from_zscore(z);</span>
+    <span class="doccomment">/// let x2 = Normal::new(2.0, -3.0).unwrap().from_zscore(z);</span>
+    <span class="doccomment">/// ```</span>
+    <span class="attribute">#[<span class="ident">inline</span>]</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">from_zscore</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">zscore</span>: <span class="ident">F</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">F</span> {
+        <span class="self">self</span>.<span class="ident">mean</span> <span class="op">+</span> <span class="self">self</span>.<span class="ident">std_dev</span> <span class="op">*</span> <span class="ident">zscore</span>
+    }
+}
+
+<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">F</span><span class="op">&gt;</span> <span class="ident">Distribution</span><span class="op">&lt;</span><span class="ident">F</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">Normal</span><span class="op">&lt;</span><span class="ident">F</span><span class="op">&gt;</span>
+<span class="kw">where</span> <span class="ident">F</span>: <span class="ident">Float</span>, <span class="ident">StandardNormal</span>: <span class="ident">Distribution</span><span class="op">&lt;</span><span class="ident">F</span><span class="op">&gt;</span>
+{
+    <span class="kw">fn</span> <span class="ident">sample</span><span class="op">&lt;</span><span class="ident">R</span>: <span class="ident">Rng</span> <span class="op">+</span> <span class="question-mark">?</span><span class="ident">Sized</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">rng</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">R</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">F</span> {
+        <span class="self">self</span>.<span class="ident">from_zscore</span>(<span class="ident">rng</span>.<span class="ident">sample</span>(<span class="ident">StandardNormal</span>))
     }
 }
 
@@ -377,36 +576,95 @@
 <span class="doccomment">/// println!(&quot;{} is from an ln N(2, 9) distribution&quot;, v)</span>
 <span class="doccomment">/// ```</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">LogNormal</span><span class="op">&lt;</span><span class="ident">N</span><span class="op">&gt;</span> {
-    <span class="ident">norm</span>: <span class="ident">Normal</span><span class="op">&lt;</span><span class="ident">N</span><span class="op">&gt;</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">LogNormal</span><span class="op">&lt;</span><span class="ident">F</span><span class="op">&gt;</span>
+<span class="kw">where</span> <span class="ident">F</span>: <span class="ident">Float</span>, <span class="ident">StandardNormal</span>: <span class="ident">Distribution</span><span class="op">&lt;</span><span class="ident">F</span><span class="op">&gt;</span>
+{
+    <span class="ident">norm</span>: <span class="ident">Normal</span><span class="op">&lt;</span><span class="ident">F</span><span class="op">&gt;</span>,
 }
 
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">N</span>: <span class="ident">Float</span><span class="op">&gt;</span> <span class="ident">LogNormal</span><span class="op">&lt;</span><span class="ident">N</span><span class="op">&gt;</span>
-<span class="kw">where</span> <span class="ident">StandardNormal</span>: <span class="ident">Distribution</span><span class="op">&lt;</span><span class="ident">N</span><span class="op">&gt;</span>
+<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">F</span><span class="op">&gt;</span> <span class="ident">LogNormal</span><span class="op">&lt;</span><span class="ident">F</span><span class="op">&gt;</span>
+<span class="kw">where</span> <span class="ident">F</span>: <span class="ident">Float</span>, <span class="ident">StandardNormal</span>: <span class="ident">Distribution</span><span class="op">&lt;</span><span class="ident">F</span><span class="op">&gt;</span>
 {
-    <span class="doccomment">/// Construct a new `LogNormal` distribution with the given mean</span>
-    <span class="doccomment">/// and standard deviation of the logarithm of the distribution.</span>
+    <span class="doccomment">/// Construct, from (log-space) mean and standard deviation</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Parameters are the &quot;standard&quot; log-space measures (these are the mean</span>
+    <span class="doccomment">/// and standard deviation of the logarithm of samples):</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// -   `mu` (`μ`, unrestricted) is the mean of the underlying distribution</span>
+    <span class="doccomment">/// -   `sigma` (`σ`, must be finite) is the standard deviation of the</span>
+    <span class="doccomment">///     underlying Normal distribution</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">mean</span>: <span class="ident">N</span>, <span class="ident">std_dev</span>: <span class="ident">N</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">LogNormal</span><span class="op">&lt;</span><span class="ident">N</span><span class="op">&gt;</span>, <span class="ident">Error</span><span class="op">&gt;</span> {
-        <span class="kw">if</span> <span class="op">!</span>(<span class="ident">std_dev</span> <span class="op">&gt;=</span> <span class="ident">N</span>::<span class="ident">from</span>(<span class="number">0.0</span>)) {
-            <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">Error</span>::<span class="ident">StdDevTooSmall</span>);
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">mu</span>: <span class="ident">F</span>, <span class="ident">sigma</span>: <span class="ident">F</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">LogNormal</span><span class="op">&lt;</span><span class="ident">F</span><span class="op">&gt;</span>, <span class="ident">Error</span><span class="op">&gt;</span> {
+        <span class="kw">let</span> <span class="ident">norm</span> <span class="op">=</span> <span class="ident">Normal</span>::<span class="ident">new</span>(<span class="ident">mu</span>, <span class="ident">sigma</span>)<span class="question-mark">?</span>;
+        <span class="prelude-val">Ok</span>(<span class="ident">LogNormal</span> { <span class="ident">norm</span> })
+    }
+
+    <span class="doccomment">/// Construct, from (linear-space) mean and coefficient of variation</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Parameters are linear-space measures:</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// -   mean (`μ &gt; 0`) is the (real) mean of the distribution</span>
+    <span class="doccomment">/// -   coefficient of variation (`cv = σ / μ`, requiring `cv ≥ 0`) is a</span>
+    <span class="doccomment">///     standardized measure of dispersion</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// As a special exception, `μ = 0, cv = 0` is allowed (samples are `-inf`).</span>
+    <span class="attribute">#[<span class="ident">inline</span>]</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">from_mean_cv</span>(<span class="ident">mean</span>: <span class="ident">F</span>, <span class="ident">cv</span>: <span class="ident">F</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">LogNormal</span><span class="op">&lt;</span><span class="ident">F</span><span class="op">&gt;</span>, <span class="ident">Error</span><span class="op">&gt;</span> {
+        <span class="kw">if</span> <span class="ident">cv</span> <span class="op">=</span><span class="op">=</span> <span class="ident">F</span>::<span class="ident">zero</span>() {
+            <span class="kw">let</span> <span class="ident">mu</span> <span class="op">=</span> <span class="ident">mean</span>.<span class="ident">ln</span>();
+            <span class="kw">let</span> <span class="ident">norm</span> <span class="op">=</span> <span class="ident">Normal</span>::<span class="ident">new</span>(<span class="ident">mu</span>, <span class="ident">F</span>::<span class="ident">zero</span>()).<span class="ident">unwrap</span>();
+            <span class="kw">return</span> <span class="prelude-val">Ok</span>(<span class="ident">LogNormal</span> { <span class="ident">norm</span> });
         }
-        <span class="prelude-val">Ok</span>(<span class="ident">LogNormal</span> { <span class="ident">norm</span>: <span class="ident">Normal</span>::<span class="ident">new</span>(<span class="ident">mean</span>, <span class="ident">std_dev</span>).<span class="ident">unwrap</span>() })
+        <span class="kw">if</span> <span class="op">!</span>(<span class="ident">mean</span> <span class="op">&gt;</span> <span class="ident">F</span>::<span class="ident">zero</span>()) {
+            <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">Error</span>::<span class="ident">MeanTooSmall</span>);
+        }
+        <span class="kw">if</span> <span class="op">!</span>(<span class="ident">cv</span> <span class="op">&gt;</span><span class="op">=</span> <span class="ident">F</span>::<span class="ident">zero</span>()) {
+            <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">Error</span>::<span class="ident">BadVariance</span>);
+        }
+
+        <span class="comment">// Using X ~ lognormal(μ, σ), CV² = Var(X) / E(X)²</span>
+        <span class="comment">// E(X) = exp(μ + σ² / 2) = exp(μ) × exp(σ² / 2)</span>
+        <span class="comment">// Var(X) = exp(2μ + σ²)(exp(σ²) - 1) = E(X)² × (exp(σ²) - 1)</span>
+        <span class="comment">// but Var(X) = (CV × E(X))² so CV² = exp(σ²) - 1</span>
+        <span class="comment">// thus σ² = log(CV² + 1)</span>
+        <span class="comment">// and exp(μ) = E(X) / exp(σ² / 2) = E(X) / sqrt(CV² + 1)</span>
+        <span class="kw">let</span> <span class="ident">a</span> <span class="op">=</span> <span class="ident">F</span>::<span class="ident">one</span>() <span class="op">+</span> <span class="ident">cv</span> <span class="op">*</span> <span class="ident">cv</span>; <span class="comment">// e</span>
+        <span class="kw">let</span> <span class="ident">mu</span> <span class="op">=</span> <span class="ident">F</span>::<span class="ident">from</span>(<span class="number">0.5</span>).<span class="ident">unwrap</span>() <span class="op">*</span> (<span class="ident">mean</span> <span class="op">*</span> <span class="ident">mean</span> <span class="op">/</span> <span class="ident">a</span>).<span class="ident">ln</span>();
+        <span class="kw">let</span> <span class="ident">sigma</span> <span class="op">=</span> <span class="ident">a</span>.<span class="ident">ln</span>().<span class="ident">sqrt</span>();
+        <span class="kw">let</span> <span class="ident">norm</span> <span class="op">=</span> <span class="ident">Normal</span>::<span class="ident">new</span>(<span class="ident">mu</span>, <span class="ident">sigma</span>)<span class="question-mark">?</span>;
+        <span class="prelude-val">Ok</span>(<span class="ident">LogNormal</span> { <span class="ident">norm</span> })
+    }
+
+    <span class="doccomment">/// Sample from a z-score</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// This may be useful for generating correlated samples `x1` and `x2`</span>
+    <span class="doccomment">/// from two different distributions, as follows.</span>
+    <span class="doccomment">/// ```</span>
+    <span class="doccomment">/// # use rand::prelude::*;</span>
+    <span class="doccomment">/// # use rand_distr::{LogNormal, StandardNormal};</span>
+    <span class="doccomment">/// let mut rng = thread_rng();</span>
+    <span class="doccomment">/// let z = StandardNormal.sample(&amp;mut rng);</span>
+    <span class="doccomment">/// let x1 = LogNormal::from_mean_cv(3.0, 1.0).unwrap().from_zscore(z);</span>
+    <span class="doccomment">/// let x2 = LogNormal::from_mean_cv(2.0, 4.0).unwrap().from_zscore(z);</span>
+    <span class="doccomment">/// ```</span>
+    <span class="attribute">#[<span class="ident">inline</span>]</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">from_zscore</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">zscore</span>: <span class="ident">F</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">F</span> {
+        <span class="self">self</span>.<span class="ident">norm</span>.<span class="ident">from_zscore</span>(<span class="ident">zscore</span>).<span class="ident">exp</span>()
     }
 }
 
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">N</span>: <span class="ident">Float</span><span class="op">&gt;</span> <span class="ident">Distribution</span><span class="op">&lt;</span><span class="ident">N</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">LogNormal</span><span class="op">&lt;</span><span class="ident">N</span><span class="op">&gt;</span>
-<span class="kw">where</span> <span class="ident">StandardNormal</span>: <span class="ident">Distribution</span><span class="op">&lt;</span><span class="ident">N</span><span class="op">&gt;</span>
+<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">F</span><span class="op">&gt;</span> <span class="ident">Distribution</span><span class="op">&lt;</span><span class="ident">F</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">LogNormal</span><span class="op">&lt;</span><span class="ident">F</span><span class="op">&gt;</span>
+<span class="kw">where</span> <span class="ident">F</span>: <span class="ident">Float</span>, <span class="ident">StandardNormal</span>: <span class="ident">Distribution</span><span class="op">&lt;</span><span class="ident">F</span><span class="op">&gt;</span>
 {
-    <span class="kw">fn</span> <span class="ident">sample</span><span class="op">&lt;</span><span class="ident">R</span>: <span class="ident">Rng</span> <span class="op">+</span> <span class="question-mark">?</span><span class="ident">Sized</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">rng</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">R</span>) <span class="op">-&gt;</span> <span class="ident">N</span> {
+    <span class="attribute">#[<span class="ident">inline</span>]</span>
+    <span class="kw">fn</span> <span class="ident">sample</span><span class="op">&lt;</span><span class="ident">R</span>: <span class="ident">Rng</span> <span class="op">+</span> <span class="question-mark">?</span><span class="ident">Sized</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">rng</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">R</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">F</span> {
         <span class="self">self</span>.<span class="ident">norm</span>.<span class="ident">sample</span>(<span class="ident">rng</span>).<span class="ident">exp</span>()
     }
 }
 
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>
 <span class="kw">mod</span> <span class="ident">tests</span> {
-    <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">Distribution</span>;
-    <span class="kw">use</span> <span class="kw">super</span>::{<span class="ident">Normal</span>, <span class="ident">LogNormal</span>};
+    <span class="kw">use</span> <span class="kw">super</span>::<span class="kw-2">*</span>;
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">test_normal</span>() {
@@ -417,11 +675,14 @@
         }
     }
     <span class="attribute">#[<span class="ident">test</span>]</span>
-    <span class="attribute">#[<span class="ident">should_panic</span>]</span>
-    <span class="kw">fn</span> <span class="ident">test_normal_invalid_sd</span>() {
-        <span class="ident">Normal</span>::<span class="ident">new</span>(<span class="number">10.0</span>, <span class="op">-</span><span class="number">1.0</span>).<span class="ident">unwrap</span>();
+    <span class="kw">fn</span> <span class="ident">test_normal_cv</span>() {
+        <span class="kw">let</span> <span class="ident">norm</span> <span class="op">=</span> <span class="ident">Normal</span>::<span class="ident">from_mean_cv</span>(<span class="number">1024.0</span>, <span class="number">1.0</span> <span class="op">/</span> <span class="number">256.0</span>).<span class="ident">unwrap</span>();
+        <span class="macro">assert_eq!</span>((<span class="ident">norm</span>.<span class="ident">mean</span>, <span class="ident">norm</span>.<span class="ident">std_dev</span>), (<span class="number">1024.0</span>, <span class="number">4.0</span>));
     }
-
+    <span class="attribute">#[<span class="ident">test</span>]</span>
+    <span class="kw">fn</span> <span class="ident">test_normal_invalid_sd</span>() {
+        <span class="macro">assert!</span>(<span class="ident">Normal</span>::<span class="ident">from_mean_cv</span>(<span class="number">10.0</span>, <span class="op">-</span><span class="number">1.0</span>).<span class="ident">is_err</span>());
+    }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">test_log_normal</span>() {
@@ -432,10 +693,29 @@
         }
     }
     <span class="attribute">#[<span class="ident">test</span>]</span>
-    <span class="attribute">#[<span class="ident">should_panic</span>]</span>
+    <span class="kw">fn</span> <span class="ident">test_log_normal_cv</span>() {
+        <span class="kw">let</span> <span class="ident">lnorm</span> <span class="op">=</span> <span class="ident">LogNormal</span>::<span class="ident">from_mean_cv</span>(<span class="number">0.0</span>, <span class="number">0.0</span>).<span class="ident">unwrap</span>();
+        <span class="macro">assert_eq!</span>((<span class="ident">lnorm</span>.<span class="ident">norm</span>.<span class="ident">mean</span>, <span class="ident">lnorm</span>.<span class="ident">norm</span>.<span class="ident">std_dev</span>), (<span class="op">-</span><span class="ident">core</span>::<span class="ident">f64</span>::<span class="ident">INFINITY</span>, <span class="number">0.0</span>));
+
+        <span class="kw">let</span> <span class="ident">lnorm</span> <span class="op">=</span> <span class="ident">LogNormal</span>::<span class="ident">from_mean_cv</span>(<span class="number">1.0</span>, <span class="number">0.0</span>).<span class="ident">unwrap</span>();
+        <span class="macro">assert_eq!</span>((<span class="ident">lnorm</span>.<span class="ident">norm</span>.<span class="ident">mean</span>, <span class="ident">lnorm</span>.<span class="ident">norm</span>.<span class="ident">std_dev</span>), (<span class="number">0.0</span>, <span class="number">0.0</span>));
+
+        <span class="kw">let</span> <span class="ident">e</span> <span class="op">=</span> <span class="ident">core</span>::<span class="ident">f64</span>::<span class="ident">consts</span>::<span class="ident">E</span>;
+        <span class="kw">let</span> <span class="ident">lnorm</span> <span class="op">=</span> <span class="ident">LogNormal</span>::<span class="ident">from_mean_cv</span>(<span class="ident">e</span>.<span class="ident">sqrt</span>(), (<span class="ident">e</span> <span class="op">-</span> <span class="number">1.0</span>).<span class="ident">sqrt</span>()).<span class="ident">unwrap</span>();
+        <span class="macro">assert_almost_eq!</span>(<span class="ident">lnorm</span>.<span class="ident">norm</span>.<span class="ident">mean</span>, <span class="number">0.0</span>, <span class="number">2e-16</span>);
+        <span class="macro">assert_almost_eq!</span>(<span class="ident">lnorm</span>.<span class="ident">norm</span>.<span class="ident">std_dev</span>, <span class="number">1.0</span>, <span class="number">2e-16</span>);
+
+        <span class="kw">let</span> <span class="ident">lnorm</span> <span class="op">=</span> <span class="ident">LogNormal</span>::<span class="ident">from_mean_cv</span>(<span class="ident">e</span>.<span class="ident">powf</span>(<span class="number">1.5</span>), (<span class="ident">e</span> <span class="op">-</span> <span class="number">1.0</span>).<span class="ident">sqrt</span>()).<span class="ident">unwrap</span>();
+        <span class="macro">assert_almost_eq!</span>(<span class="ident">lnorm</span>.<span class="ident">norm</span>.<span class="ident">mean</span>, <span class="number">1.0</span>, <span class="number">1e-15</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">lnorm</span>.<span class="ident">norm</span>.<span class="ident">std_dev</span>, <span class="number">1.0</span>);
+    }
+    <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">test_log_normal_invalid_sd</span>() {
-        <span class="ident">LogNormal</span>::<span class="ident">new</span>(<span class="number">10.0</span>, <span class="op">-</span><span class="number">1.0</span>).<span class="ident">unwrap</span>();
+        <span class="macro">assert!</span>(<span class="ident">LogNormal</span>::<span class="ident">from_mean_cv</span>(<span class="op">-</span><span class="number">1.0</span>, <span class="number">1.0</span>).<span class="ident">is_err</span>());
+        <span class="macro">assert!</span>(<span class="ident">LogNormal</span>::<span class="ident">from_mean_cv</span>(<span class="number">0.0</span>, <span class="number">1.0</span>).<span class="ident">is_err</span>());
+        <span class="macro">assert!</span>(<span class="ident">LogNormal</span>::<span class="ident">from_mean_cv</span>(<span class="number">1.0</span>, <span class="op">-</span><span class="number">1.0</span>).<span class="ident">is_err</span>());
     }
 }
 </pre></div>
-</section><section id="search" class="content hidden"></section><section class="footer"></section><aside id="help" class="hidden"><div><h1 class="hidden">Help</h1><div class="shortcuts"><h2>Keyboard Shortcuts</h2><dl><dt><kbd>?</kbd></dt><dd>Show this help dialog</dd><dt><kbd>S</kbd></dt><dd>Focus the search field</dd><dt><kbd>↑</kbd></dt><dd>Move up in search results</dd><dt><kbd>↓</kbd></dt><dd>Move down in search results</dd><dt><kbd>↹</kbd></dt><dd>Switch tab</dd><dt><kbd>&#9166;</kbd></dt><dd>Go to active search result</dd><dt><kbd>+</kbd></dt><dd>Expand all sections</dd><dt><kbd>-</kbd></dt><dd>Collapse all sections</dd></dl></div><div class="infos"><h2>Search Tricks</h2><p>Prefix searches with a type followed by a colon (e.g., <code>fn:</code>) to restrict the search to a given type.</p><p>Accepted types are: <code>fn</code>, <code>mod</code>, <code>struct</code>, <code>enum</code>, <code>trait</code>, <code>type</code>, <code>macro</code>, and <code>const</code>.</p><p>Search functions by type signature (e.g., <code>vec -> usize</code> or <code>* -> vec</code>)</p><p>Search multiple things at once by splitting your query with comma (e.g., <code>str,u8</code> or <code>String,struct:Vec,test</code>)</p></div></div></aside><script>window.rootPath = "../../";window.currentCrate = "rand_distr";</script><script src="../../aliases.js"></script><script src="../../main.js"></script><script src="../../source-script.js"></script><script src="../../source-files.js"></script><script defer src="../../search-index.js"></script></body></html>
+</section><section id="search" class="content hidden"></section><section class="footer"></section><div id="rustdoc-vars" data-root-path="../../" data-current-crate="rand_distr" data-search-js="../../search-index.js"></div>
+    <script src="../../main.js"></script><script src="../../source-script.js"></script><script src="../../source-files.js"></script></body></html>

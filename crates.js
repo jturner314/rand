@@ -1,0 +1,1 @@
+window.ALL_CRATES = ["cfg_if","getrandom","libc","libm","num_traits","ppv_lite86","proc_macro2","quote","rand","rand_chacha","rand_core","rand_distr","rand_hc","rand_pcg","serde","serde_derive","syn","unicode_xid"];
